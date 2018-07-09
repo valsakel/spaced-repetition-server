@@ -36,8 +36,8 @@ app.use(express.json());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-app.use('/api', authRouter);
 app.use('/api/users', usersRouter);
+app.use('/api', authRouter);
 
 function runServer(port = PORT) {
   const server = app
