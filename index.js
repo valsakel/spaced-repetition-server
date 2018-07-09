@@ -6,7 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
-const { dbConnect } = require('./db-mongoose');
+const { dbConnect, dbGet } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
 
 const app = express();
@@ -38,5 +38,7 @@ if (require.main === module) {
   dbConnect();
   runServer();
 }
+
+console.log(`MongoDB URI: ${dbGet().connection.host}:${dbGet().connection.port}`);
 
 module.exports = { app };
