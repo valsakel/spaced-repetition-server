@@ -15,3 +15,5 @@ router.get('/', (req, res, next) => {
     .then(results => res.json(results))
     .catch(next);
 });
+
+module.exports = router;

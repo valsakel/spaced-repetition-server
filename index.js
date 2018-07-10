@@ -8,9 +8,9 @@ const morgan = require('morgan');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect, dbGet } = require('./db-mongoose');
 
-const authRouter = require('./routes/auth');
+const questionsRouter = require('./routes/questions');
 const usersRouter = require('./routes/users');
-
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -35,6 +35,8 @@ app.use(express.json());
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
+
+app.use('/api/questions', questionsRouter);
 
 app.use('/api/users', usersRouter);
 app.use('/api', authRouter);
