@@ -1,17 +1,17 @@
 [
   {
     "_id": "222222222222222222222200",
-    "q": "olleh",
-    "a": "hello"
+    "prompt": "olleh",
+    "answer": "hello"
   },
   {
     "_id": "222222222222222222222201",
-    "q": "ih",
-    "a": "hi"
+    "prompt": "ih",
+    "answer": "hi"
   },
   {
     "_id": "222222222222222222222202",
-    "q": "yeh",
-    "a": "hey"
+    "prompt": "yeh",
+    "answer": "hey"
   }
 ]
