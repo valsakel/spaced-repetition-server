@@ -9,6 +9,7 @@ const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect, dbGet } = require('./db-mongoose');
 
 const questionsRouter = require('./routes/questions');
+const answersRouter = require('./routes/answers');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 
@@ -37,6 +38,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/api/questions', questionsRouter);
+app.use('/api/answers', answersRouter);
 
 app.use('/api/users', usersRouter);
 app.use('/api', authRouter);

@@ -16,8 +16,9 @@ router.get('/', (req, res, next) => {
 
   User.findById(req.user.id)
     .then(user => {
+      const question = user.questions[user.head].question;
       console.log('RESULTS', user.questions[0]);
-      res.json(user.questions[0])
+      res.json(question)
     })
     .catch(next);
 });

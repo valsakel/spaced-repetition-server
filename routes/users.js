@@ -113,6 +113,7 @@ router.post('/', (req, res, next) => {
 		.then(questions => {
 			userData.questions = questions.map((q, i) => ({
 				question: q.q,
+				answer: q.a,
 				mValue: 1,
 				next: i === questions.length - 1 ? null : i + 1
 			}));
