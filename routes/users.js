@@ -80,7 +80,6 @@ router.post('/register', (req, res, next) => {
 
   // Username and password were validated as pre-trimmed
   let { username, password, firstname, lastname } = req.body;
-  // fullname = fullname.trim();
 
   const userData = {
     username,
@@ -93,12 +92,13 @@ router.post('/register', (req, res, next) => {
     .then(digest => {
       userData.password = digest;
       return Promise.all([User.create(userData), Question.find()])
-      // return Question.find();
     })
     .then(([user, questions]) => {
       user.questions = questions.map((q, i) => ({
         prompt: q.prompt,
         answer: q.answer,
+        score: 0,
+        total: 0,
         mValue: 1,
         next: i === questions.length - 1 ? null : i + 1
       }));
@@ -107,11 +107,7 @@ router.post('/register', (req, res, next) => {
         // saved!
       });
       return res.status(201).location(`/api/users/${user.id}`).json(user);
-      // return User.create(userData);
     })
-    // .then(user => {
-    //   return res.status(201).location(`/api/users/${user.id}`).json(user);
-    // })
     .catch(err => {
       if (err.code === 11000) {
         err = new Error('The username already exists');
