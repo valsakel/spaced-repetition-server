@@ -3,24 +3,28 @@
 const express = require('express');
 
 const User = require('../models/user');
+const Question = require('../models/question');
+
 
 const router = express.Router();
 
 
-router.get('/', (req, res, next) => {
-
-	User.find()
-		.sort('name')
-		.then(results => {
-			res.json(results);
-		})
-		.catch(err => { next(err);
-		});
-
-});
 
 
-/* ========== POST/CREATE AN ITEM ========== */
+// router.get('/', (req, res, next) => {
+//
+// 	User.find()
+// 		.sort('name')
+// 		.then(results => {
+// 			res.json(results);
+// 		})
+// 		.catch(err => { next(err);
+// 		});
+//
+// });
+
+
+/* ========== POST/CREATE A USER ========== */
 router.post('/', (req, res, next) => {
 
 	const requiredFields = ['username', 'password'];
@@ -95,18 +99,27 @@ router.post('/', (req, res, next) => {
 	let { username, password, fullname = '' } = req.body;
 	fullname = fullname.trim();
 
+	const userData = {
+    username,
+    fullname
+	};
+
 	// Remove explicit hashPassword if using pre-save middleware
-	return User.hashPassword(password)
+	User.hashPassword(password)
 		.then(digest => {
-			const newUser = {
-				username,
-				password: digest,
-				fullname
-			};
-			return User.create(newUser);
+      userData.password = digest;
+      return Question.find();
+    })
+		.then(questions => {
+			userData.questions = questions.map((q, i) => ({
+				question: q.q,
+				mValue: 1,
+				next: i === questions.length - 1 ? null : i + 1
+			}));
+			return User.create(userData);
 		})
-		.then(result => {
-			return res.status(201).location(`/api/users/${result.id}`).json(result);
+		.then(user => {
+			return res.status(201).location(`/api/users/${user.id}`).json(user);
 		})
 		.catch(err => {
 			if (err.code === 11000) {

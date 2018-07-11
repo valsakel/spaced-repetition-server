@@ -4,15 +4,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-const Question = require('../models/question');
+const User = require('../models/user');
 
 const router = express.Router();
 
 router.use('/', passport.authenticate('jwt', { session: false, failWithError: true }));
 
+
+/* ========== GET A QUESTION ========== */
 router.get('/', (req, res, next) => {
-  Question.find()
-    .then(results => res.json(results))
+
+  User.findById(req.user.id)
+    .then(user => {
+      console.log('RESULTS', user.questions[0]);
+      res.json(user.questions[0])
+    })
     .catch(next);
 });
 

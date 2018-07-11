@@ -7,7 +7,17 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
 	fullname: { type: String, default: '' },
 	username: { type: String, required: true, unique: true },
-	password: { type: String, required: true }
+	password: { type: String, required: true },
+	questions: [
+		{
+			_id: mongoose.Schema.Types.ObjectId,
+			question: String,
+			answer: String,
+			mValue: Number,
+			next: Number
+		}
+	],
+	head: {	type: Number, default: 0	}
 }, { timestamps: true });
 
 userSchema.set('toObject', {
@@ -27,4 +37,4 @@ userSchema.statics.hashPassword = function (password) {
 	return bcrypt.hash(password, 10);
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('UserProfile', userSchema);
