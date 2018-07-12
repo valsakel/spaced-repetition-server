@@ -13,10 +13,16 @@ router.use('/', passport.authenticate('jwt', { session: false, failWithError: tr
 
 /* ========== POST/UPDATE AN ANSWER ========== */
 router.post('/', (req, res, next) => {
-  console.log(req.body);
+
+  //TODO: see if there is a better solution
+  // we need to send answer and head value so we could use that data
+  // in the response body
+  // {
+  //   "answer": "hi",
+  //   "head": 2
+  // }
 
   const userAnswer = req.body.answer.trim();
-  console.log('USER ANSWER', userAnswer);
 
   User.findById(req.user.id)
     .then(user => {
@@ -33,24 +39,26 @@ router.post('/', (req, res, next) => {
       let count = currQuestion.mValue;
 
       let currObj = user.questions[currIndex];
-      console.log('CURR OBJ BEFORE', currObj);
 
       while(count && currObj.next !== null) {
         currObj = user.questions[currObj.next];
-        console.log('CURRENT OBJ AFTER', currObj);
         count--;
       }
       user.head = currQuestion.next;
-      console.log('USER HEAD', user.head);
       currQuestion.next = currObj.next;
-      console.log('CURR Q NEXT', currQuestion.next);
       currObj.next = currIndex;
-      console.log('CURR OBJ', currObj);
 
-      return User.findByIdAndUpdate({_id: req.user.id}, {head: user.head, questions: user.questions}, { new: true })
+      return user.save();
     })
     .then(user => {
-      res.json(user)
+      if ( user.questions[req.body.head].answer === req.body.answer.trim() ) {
+        res.json({
+          answer: 'correct'
+        });
+      }
+      res.json({
+        answer: 'incorrect'
+      });
     })
     .catch(next);
 });
