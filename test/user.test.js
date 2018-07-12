@@ -105,6 +105,17 @@ describe('Spaced Repetition - Users', function() {
           });
       });
 
+      it('Should reject users with missing username', function() {
+        return chai
+          .request(app)
+          .post('/api/users/register')
+          .send({ password, username: '' })
+          .then(res => {
+            expect(res).to.have.status(422);
+            expect(res.body.message).to.equal(`Missing ${username} in request body`);
+          });
+      });
+
 
 
 
