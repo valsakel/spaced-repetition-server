@@ -28,39 +28,102 @@ router.get('/next', (req, res, next) => {
 });
 
 router.post('/answer', (req, res, next) => {
-  const { answer } = req.body
   const userId = req.user.id;
+
+  const userAnswer = req.body.answer.trim();
 
   User.findById(userId)
     .then(user => {
-      const answeredQuestionIndex = user.head;
-      const answeredQuestion = user.questions[answeredQuestionIndex];
+
+      const currIndex = user.head;
+      const answeredQuestion = user.questions[currIndex];
+
+      // increase total value on each attempt
       answeredQuestion.total = answeredQuestion.total + 1;
-      if (answer.trim() === answeredQuestion.answer) {
+
+      let isCorrect = false;
+      // check correctness
+      if (userAnswer === answeredQuestion.answer) {
+        isCorrect = true;
         answeredQuestion.score = answeredQuestion.score + 1;
-        answeredQuestion.mValue = answeredQuestion.mValue * 2;
-      }
-      else {
+        answeredQuestion.mValue = (answeredQuestion.mValue * 2);
+      } else {
         answeredQuestion.mValue = 1;
       }
 
-      user.head = answeredQuestion.next;
+      let count = answeredQuestion.mValue;
 
-      let currentQuestion = answeredQuestion;
-      for (let i = 0; i < answeredQuestion.mValue; i++) {
-        const nextIndex = currentQuestion.next;
+      let currObj = user.questions[currIndex];
 
-        currentQuestion = user.questions[nextIndex];
+      while (count && currObj.next !== null) {
+        currObj = user.questions[currObj.next];
+        count--;
       }
+      user.head = answeredQuestion.next;
+      answeredQuestion.next = currObj.next;
+      currObj.next = currIndex;
 
-      answeredQuestion.next = currentQuestion.next;
-      currentQuestion.next = answeredQuestionIndex;
+      // return user.save();
+      user.save();
+      if (isCorrect) {
+        res.json({
+          answer: 'correct'
+        });
+      }
+      else {
+        res.json({
+          answer: 'incorrect'
+        });
+      }
+    })
+    // .then(user => {
 
-      return user.save();
-    })
-    .then(user => {
-      res.json(user);
-    })
+    //   if (user.questions[req.body.head].answer === req.body.answer.trim()) {
+    //     res.json({
+    //       answer: 'correct'
+    //     });
+    //   }
+    //   res.json({
+    //     answer: 'incorrect'
+    //   });
+    // })
+    .catch(next);
 });
+
+// router.post('/answer', (req, res, next) => {
+//   const { answer } = req.body
+//   const userId = req.user.id;
+
+//   User.findById(userId)
+//     .then(user => {
+//       const answeredQuestionIndex = user.head;
+//       const answeredQuestion = user.questions[answeredQuestionIndex];
+//       answeredQuestion.total = answeredQuestion.total + 1;
+//       if (answer.trim() === answeredQuestion.answer) {
+//         answeredQuestion.score = answeredQuestion.score + 1;
+//         answeredQuestion.mValue = answeredQuestion.mValue * 2;
+//       }
+//       else {
+//         answeredQuestion.mValue = 1;
+//       }
+
+//       user.head = answeredQuestion.next;
+
+//       let currentQuestion = answeredQuestion;
+//       for (let i = 0; i < answeredQuestion.mValue; i++) {
+//         const nextIndex = currentQuestion.next;
+
+//         currentQuestion = user.questions[nextIndex];
+//       }
+
+//       answeredQuestion.next = currentQuestion.next;
+//       currentQuestion.next = answeredQuestionIndex;
+
+//       return user.save();
+//     })
+//     .then(user => {
+//       res.json(user);
+//     })
+// });
 
 module.exports = router;

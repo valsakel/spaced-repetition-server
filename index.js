@@ -38,7 +38,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 app.use('/api/questions', questionsRouter);
-app.use('/api/answers', answersRouter);
+// app.use('/api/answers', answersRouter);
 
 app.use('/api/users', usersRouter);
 app.use('/api', authRouter);
