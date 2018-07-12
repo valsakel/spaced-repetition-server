@@ -7,6 +7,15 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+router.get('/', (req, res, next) => {
+  User.find({})
+    .sort('name')
+    .then(results => {
+      res.json(results);
+    })
+    .catch(next);
+});
+
 /* ========== POST/CREATE A USER ========== */
 router.post('/register', (req, res, next) => {
 
