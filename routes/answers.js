@@ -20,27 +20,34 @@ router.post('/', (req, res, next) => {
 
   User.findById(req.user.id)
     .then(user => {
-      // console.log('RESULTS', user);
-      const answerIndex = user.head;
 
-      console.log('ANSWER INDEX', answerIndex);
-      const question = user.questions[answerIndex];
+      const currQuestion = user.questions[user.head];
+      const currIndex = user.head;
 
-      if (userAnswer === question.answer) {
-        question.mValue = question.mValue * 2;
-        console.log('RIGHT ANSWER');
-
+      if (userAnswer === currQuestion.answer) {
+        currQuestion.mValue = (currQuestion.mValue * 2);
       } else {
-        console.log('WRONG ANSWER');
+        currQuestion.mValue = 1;
       }
 
-      if (question.next) {
-        user.head = question.next;
-      } else {
-        user.head = 0;
-      }
+      let count = currQuestion.mValue;
 
-      return User.findByIdAndUpdate({_id: req.user.id}, {head: user.head}, { new: true })
+      let currObj = user.questions[currIndex];
+      console.log('CURR OBJ BEFORE', currObj);
+
+      while(count && currObj.next !== null) {
+        currObj = user.questions[currObj.next];
+        console.log('CURRENT OBJ AFTER', currObj);
+        count--;
+      }
+      user.head = currQuestion.next;
+      console.log('USER HEAD', user.head);
+      currQuestion.next = currObj.next;
+      console.log('CURR Q NEXT', currQuestion.next);
+      currObj.next = currIndex;
+      console.log('CURR OBJ', currObj);
+
+      return User.findByIdAndUpdate({_id: req.user.id}, {head: user.head, questions: user.questions}, { new: true })
     })
     .then(user => {
       res.json(user)
