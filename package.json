@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "mocha  --timeout 20000 --bail",
+    "test": "mocha  --timeout 20000",
     "heroku": "node index.js",
     "travis": "npm run mocha"
   },

@@ -1,7 +1,9 @@
 'use strict';
 
+const { app } = require('../index');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
 
 const { TEST_DATABASE_URL } = require('../config');
 const { dbConnect, dbDisconnect } = require('../db-mongoose');
@@ -26,11 +28,11 @@ after(function () {
   return dbDisconnect();
 });
 
-describe('Mocha and Chai', function () {
-  it('should be properly setup', function () {
-    expect(true).to.be.true;
-  });
-});
+// describe('Mocha and Chai', function () {
+//   it('should be properly setup', function () {
+//     expect(true).to.be.true;
+//   });
+// });
 
 describe('Spaced Repetition - Users', function() {
   const username = 'sampleUser';
@@ -38,17 +40,24 @@ describe('Spaced Repetition - Users', function() {
   const firstname = 'Sample First Name';
   const lastname = 'Sample Last Name';
   const head = 0;
+  console.log('HELLLLLO');
 
   before(function() {
+    console.log('HELLLLLO');
+
     return mongoose.connect(TEST_DATABASE_URL)
       .then(() => mongoose.connection.db.dropDatabase());
   });
 
   beforeEach(function() {
+    console.log('HELLLLLO');
+
     return User.createIndexes();
   });
 
   afterEach(function() {
+    console.log('HELLLLLO');
+
     return mongoose.connection.db.dropDatabase();
   });
 
@@ -58,12 +67,16 @@ describe('Spaced Repetition - Users', function() {
 
   describe('/api/users/register', function() {
     describe('POST', function() {
-      if('Should create a user', function() {
+      it('Should create a user', function() {
         let res;
         return chai
           .request(app)
           .post('/api/users/register')
-          .send({username, password, firstname, lastname})
+          .send({
+            username,
+            password,
+            firstname,
+            lastname})
           .then(_res => {
             res = _res;
             expect(res).to.have.status(201);
@@ -84,7 +97,7 @@ describe('Spaced Repetition - Users', function() {
           .then(user => {
             expect(user).to.exist;
             expect(user.id).to.equal(res.body.id);
-            expect(user.fullname).to.equal(fullname);
+            expect(user.username).to.equal(username);
             return user.validatePassword(password);
           })
           .then(isValid => {
