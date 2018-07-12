@@ -10,33 +10,37 @@ const router = express.Router();
 
 router.use('/', passport.authenticate('jwt', { session: false, failWithError: true }));
 
-
+//TODO: see if there is a better solution
+// we need to send answer and head value so we could use that data
+// in the response body
+// {
+//   "answer": "hi",
+//   "head": 2
+// }
 /* ========== POST/UPDATE AN ANSWER ========== */
 router.post('/', (req, res, next) => {
-
-  //TODO: see if there is a better solution
-  // we need to send answer and head value so we could use that data
-  // in the response body
-  // {
-  //   "answer": "hi",
-  //   "head": 2
-  // }
+  const userId = req.user.id;
 
   const userAnswer = req.body.answer.trim();
 
-  User.findById(req.user.id)
+  User.findById(userId)
     .then(user => {
 
-      const currQuestion = user.questions[user.head];
       const currIndex = user.head;
+      const answeredQuestion = user.questions[currIndex];
 
-      if (userAnswer === currQuestion.answer) {
-        currQuestion.mValue = (currQuestion.mValue * 2);
+      // increase total value on each attempt
+      answeredQuestion.total = answeredQuestion.total + 1;
+
+      // check correctness
+      if (userAnswer === answeredQuestion.answer) {
+        answeredQuestion.score = answeredQuestion.score + 1;
+        answeredQuestion.mValue = (answeredQuestion.mValue * 2);
       } else {
-        currQuestion.mValue = 1;
+        answeredQuestion.mValue = 1;
       }
 
-      let count = currQuestion.mValue;
+      let count = answeredQuestion.mValue;
 
       let currObj = user.questions[currIndex];
 
@@ -44,13 +48,14 @@ router.post('/', (req, res, next) => {
         currObj = user.questions[currObj.next];
         count--;
       }
-      user.head = currQuestion.next;
-      currQuestion.next = currObj.next;
+      user.head = answeredQuestion.next;
+      answeredQuestion.next = currObj.next;
       currObj.next = currIndex;
 
       return user.save();
     })
     .then(user => {
+
       if ( user.questions[req.body.head].answer === req.body.answer.trim() ) {
         res.json({
           answer: 'correct'
