@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
 userSchema.set('toObject', {
   transform: function (doc, ret) {
     ret.id = ret._id;
+    delete ret.questions;
+    delete ret.createdAt;
+    delete ret.updatedAt;
     delete ret._id;
     delete ret.__v;
     delete ret.password;
