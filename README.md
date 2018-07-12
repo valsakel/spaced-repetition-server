@@ -1,6 +1,7 @@
-# Thinkful Backend Template
+FlashFluent - Learning App
+============================
 
-A template for developing and deploying Node.js apps.
+Deployed on [Heroku](https://spaced-rep-marjef-server.herokuapp.com/)
 
 ## Getting started
 
