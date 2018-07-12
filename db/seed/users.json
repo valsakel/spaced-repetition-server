@@ -7,18 +7,28 @@
     "lastname": "Valiquette",
     "questions": [
       {
-        "prompt": "hello",
-        "answer": "olleh",
+        "prompt": "A",
+        "answer": "A",
         "next": "1"
       },
       {
-        "prompt": "ih",
-        "answer": "hi",
+        "prompt": "B",
+        "answer": "B",
         "next": "2"
       },
       {
-        "prompt": "yeh",
-        "answer": "hey"
+        "prompt": "C",
+        "answer": "C",
+        "next": "3"
+      },
+      {
+        "prompt": "D",
+        "answer": "D",
+        "next": "4"
+      },
+      {
+        "prompt": "E",
+        "answer": "E"
       }
     ],
     "head": "0"
@@ -31,18 +41,28 @@
     "lastname": "Mahmoudi",
     "questions": [
       {
-        "prompt": "hello",
-        "answer": "olleh",
+        "prompt": "A",
+        "answer": "A",
         "next": "1"
       },
       {
-        "prompt": "ih",
-        "answer": "hi",
+        "prompt": "B",
+        "answer": "B",
         "next": "2"
       },
       {
-        "prompt": "yeh",
-        "answer": "hey"
+        "prompt": "C",
+        "answer": "C",
+        "next": "3"
+      },
+      {
+        "prompt": "D",
+        "answer": "D",
+        "next": "4"
+      },
+      {
+        "prompt": "E",
+        "answer": "E"
       }
     ],
     "head": "0"

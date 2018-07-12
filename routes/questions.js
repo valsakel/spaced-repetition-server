@@ -27,4 +27,40 @@ router.get('/next', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/answer', (req, res, next) => {
+  const { answer } = req.body
+  const userId = req.user.id;
+
+  User.findById(userId)
+    .then(user => {
+      const answeredQuestionIndex = user.head;
+      const answeredQuestion = user.questions[answeredQuestionIndex];
+      answeredQuestion.total = answeredQuestion.total + 1;
+      if (answer.trim() === answeredQuestion.answer) {
+        answeredQuestion.score = answeredQuestion.score + 1;
+        answeredQuestion.mValue = answeredQuestion.mValue * 2;
+      }
+      else {
+        answeredQuestion.mValue = 1;
+      }
+
+      user.head = answeredQuestion.next;
+
+      let currentQuestion = answeredQuestion;
+      for (let i = 0; i < answeredQuestion.mValue; i++) {
+        const nextIndex = currentQuestion.next;
+
+        currentQuestion = user.questions[nextIndex];
+      }
+
+      answeredQuestion.next = currentQuestion.next;
+      currentQuestion.next = answeredQuestionIndex;
+
+      return user.save();
+    })
+    .then(user => {
+      res.json(user);
+    })
+});
+
 module.exports = router;

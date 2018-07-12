@@ -108,10 +108,9 @@ router.post('/register', (req, res, next) => {
         answer: q.answer,
         next: i === questions.length - 1 ? null : i + 1
       }));
-      user.save(function (err) {
-        if (err) return next(err);
-        // saved!
-      });
+      return user.save();
+    })
+    .then(user => {
       return res.status(201).location(`/api/users/${user.id}`).json(user);
     })
     .catch(err => {
