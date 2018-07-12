@@ -106,9 +106,6 @@ router.post('/register', (req, res, next) => {
       user.questions = questions.map((q, i) => ({
         prompt: q.prompt,
         answer: q.answer,
-        score: 0,
-        total: 0,
-        mValue: 1,
         next: i === questions.length - 1 ? null : i + 1
       }));
       user.save(function (err) {
