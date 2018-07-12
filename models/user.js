@@ -26,7 +26,7 @@ userSchema.set('toObject', {
   transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret.questions;
-    delete ret.head;
+    // delete ret.head;
     delete ret.createdAt;
     delete ret.updatedAt;
     delete ret._id;
