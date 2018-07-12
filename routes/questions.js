@@ -11,8 +11,16 @@ const router = express.Router();
 router.use('/', passport.authenticate('jwt', { session: false, failWithError: true }));
 
 
-/* ========== GET A QUESTION ========== */
 router.get('/', (req, res, next) => {
+  User.find({})
+    .then(results => {
+      res.json(results);
+    })
+    .catch(next);
+})
+
+/* ========== GET A QUESTION ========== */
+router.get('/next', (req, res, next) => {
 
   User.findById(req.user.id)
     .then(user => {

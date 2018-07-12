@@ -11,13 +11,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   questions: [
     {
-      _id: mongoose.Schema.Types.ObjectId,
-      prompt: String,
-      answer: String,
-      score: Number,
-      total: Number,
-      mValue: Number,
-      next: Number
+      prompt: { type: String, required: true },
+      answer: { type: String, required: true },
+      score: { type: Number, default: 0 },
+      total: { type: Number, default: 0 },
+      mValue: { type: Number, default: 1 },
+      next: { type: Number, default: null }
     }
   ],
   head: { type: Number, default: 0 }
@@ -27,6 +26,7 @@ userSchema.set('toObject', {
   transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret.questions;
+    delete ret.head;
     delete ret.createdAt;
     delete ret.updatedAt;
     delete ret._id;

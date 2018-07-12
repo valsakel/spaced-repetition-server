@@ -23,8 +23,8 @@ mongoose.connect(DATABASE_URL)
       Question.insertMany(seedQuestions),
       Question.createIndexes(),
 
-      // User.insertMany(seedUsers),
-      // User.createIndexes(),
+      User.insertMany(seedUsers),
+      User.createIndexes(),
     ]);
   })
   .then(() => mongoose.disconnect())
