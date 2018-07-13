@@ -40,24 +40,17 @@ describe('Spaced Repetition - Users', function() {
   const firstname = 'Sample First Name';
   const lastname = 'Sample Last Name';
   const head = 0;
-  console.log('HELLLLLO');
 
   before(function() {
-    console.log('HELLLLLO');
-
     return mongoose.connect(TEST_DATABASE_URL)
       .then(() => mongoose.connection.db.dropDatabase());
   });
 
   beforeEach(function() {
-    console.log('HELLLLLO');
-
     return User.createIndexes();
   });
 
   afterEach(function() {
-    console.log('HELLLLLO');
-
     return mongoose.connection.db.dropDatabase();
   });
 
@@ -105,20 +98,42 @@ describe('Spaced Repetition - Users', function() {
           });
       });
 
-      it('Should reject users with missing username', function() {
+      it('Should trim firstname', function () {
         return chai
           .request(app)
           .post('/api/users/register')
-          .send({ password, username: '' })
+          .send({ username, password, firstname: ` ${firstname}`, lastname })
           .then(res => {
-            expect(res).to.have.status(422);
-            expect(res.body.message).to.equal(`Missing ${username} in request body`);
+            expect(res).to.have.status(201);
+            expect(res.body).to.be.an('object');
+            // expect(res.body).to.have.keys('id', 'username');
+            expect(res.body.firstname).to.equal(firstname);
+            return User.findOne({ username });
+          })
+          .then(user => {
+            expect(user).to.not.be.null;
+            expect(user.firstname).to.equal(firstname);
           });
       });
 
-
-
-
+      it('Should trim lastname', function () {
+        return chai
+          .request(app)
+          .post('/api/users/register')
+          .send({ username, password, firstname, lastname: ` ${lastname}` })
+          .then(res => {
+            expect(res).to.have.status(201);
+            expect(res.body).to.be.an('object');
+            // expect(res.body).to.have.keys('id', 'username');
+            expect(res.body.lastname).to.equal(lastname);
+            return User.findOne({ username });
+          })
+          .then(user => {
+            expect(user).to.not.be.null;
+            expect(user.lastname).to.equal(lastname);
+          });
+      });
+      
     })
   })
 
