@@ -124,7 +124,12 @@ describe('Spaced Repetition - Users', function() {
           .then(res => {
             expect(res).to.have.status(201);
             expect(res.body).to.be.an('object');
-            // expect(res.body).to.have.keys('id', 'username');
+            expect(res.body).to.have.keys(
+              'firstname',
+              'lastname',
+              'head',
+              'username',
+              'id');
             expect(res.body.lastname).to.equal(lastname);
             return User.findOne({ username });
           })
@@ -137,17 +142,4 @@ describe('Spaced Repetition - Users', function() {
     })
   })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-})
+});
