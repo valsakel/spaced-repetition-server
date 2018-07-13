@@ -88,7 +88,9 @@ router.post('/register', (req, res, next) => {
   }
 
   // Username and password were validated as pre-trimmed
-  let { username, password, firstname, lastname } = req.body;
+  let { username, password, firstname = '', lastname = '' } = req.body;
+  firstname = firstname.trim();
+  lastname = lastname.trim();
 
   const userData = {
     username,
