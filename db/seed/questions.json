@@ -1,27 +1,27 @@
 [
   {
     "_id": "222222222222222222222200",
-    "prompt": "A",
-    "answer": "A"
+    "prompt": "https://cdn5.kakao.im/wp-content/uploads/2018/07/1-234.jpg",
+    "answer": "Burj Khalifa"
   },
   {
     "_id": "222222222222222222222201",
-    "prompt": "B",
-    "answer": "B"
+    "prompt": "https://cdn5.kakao.im/wp-content/uploads/2018/07/2-134.jpg",
+    "answer": "Taj Mahal"
   },
   {
     "_id": "222222222222222222222202",
-    "prompt": "C",
-    "answer": "C"
+    "prompt": "https://cdn2.kakao.im/wp-content/uploads/2018/07/3-119.jpg",
+    "answer": "Savior on Blood"
   },
   {
     "_id": "222222222222222222222203",
-    "prompt": "D",
-    "answer": "D"
+    "prompt": "https://cdn.kakao.im/wp-content/uploads/2018/07/4-111.jpg",
+    "answer": "Shwedagon Pagoda"
   },
   {
     "_id": "222222222222222222222204",
-    "prompt": "E",
-    "answer": "E"
+    "prompt": "https://cdn4.kakao.im/wp-content/uploads/2018/07/5-103.jpg",
+    "answer": "Sagrada Familia"
   }
 ]

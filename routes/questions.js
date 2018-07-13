@@ -27,10 +27,11 @@ router.get('/next', (req, res, next) => {
     .catch(next);
 });
 
+/* ========== SAVE/UPDATE AN ANSWER ========== */
 router.post('/answer', (req, res, next) => {
   const userId = req.user.id;
 
-  const userAnswer = req.body.answer.trim();
+  const userAnswer = req.body.answer.trim().toLowerCase();
 
   User.findById(userId)
     .then(user => {
@@ -43,7 +44,7 @@ router.post('/answer', (req, res, next) => {
 
       let isCorrect = false;
       // check correctness
-      if (userAnswer === answeredQuestion.answer) {
+      if (userAnswer === answeredQuestion.answer.toLowerCase()) {
         isCorrect = true;
         answeredQuestion.score = answeredQuestion.score + 1;
         answeredQuestion.mValue = (answeredQuestion.mValue * 2);
