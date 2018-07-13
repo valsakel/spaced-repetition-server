@@ -23,5 +23,31 @@
     "_id": "222222222222222222222204",
     "prompt": "https://cdn4.kakao.im/wp-content/uploads/2018/07/5-103.jpg",
     "answer": "Sagrada Familia"
+  },
+  {
+    "_id": "222222222222222222222205",
+    "prompt": "https://cdn.kakao.im/wp-content/uploads/2018/07/8-73.jpg",
+    "answer": "Ferrari World"
+  },
+  {
+    "_id": "222222222222222222222206",
+    "prompt": "https://cdn3.kakao.im/wp-content/uploads/2018/07/9-63.jpg",
+    "answer": "Lotus Temple"
+  },
+  {
+    "_id": "222222222222222222222207",
+    "prompt": "https://cdn4.kakao.im/wp-content/uploads/2018/07/10-58.jpg",
+    "answer": "Wat Rong Khun"
+  },
+  {
+    "_id": "222222222222222222222208",
+    "prompt": "https://cdn3.kakao.im/wp-content/uploads/2018/07/7-82.jpg",
+    "answer": "Taktsang Monastery"
+  },
+  {
+    "_id": "222222222222222222222209",
+    "prompt": "https://cdn2.kakao.im/wp-content/uploads/2018/07/6-96.jpg",
+    "answer": "Harmandir Sahib"
   }
 ]
+
